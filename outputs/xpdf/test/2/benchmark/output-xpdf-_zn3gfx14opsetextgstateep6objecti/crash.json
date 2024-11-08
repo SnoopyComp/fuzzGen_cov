@@ -1,0 +1,45 @@
+{
+    "samples": [
+
+    {
+        "benchmark": "output-xpdf-_zn3gfx14opsetextgstateep6objecti",
+        "sample": "01",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n\\n#include <cstddef>\\n#include <cstdint>\\n#include <cstdlib>\\n#include <vector>\\n\\n#include \"/src/xpdf-4.05/xpdf/Gfx.h\" // Correctly include Gfx.h\\n#include \"Object.h\"\\n#include \"PDFDoc.h\" // Include the header for PDFDoc\\n#include \"OutputDev.h\" // Include the header for OutputDev\\n#include \"Dict.h\" // Include the header for Dict\\n#include \"PDFRectangle.h\" // Include the header for PDFRectangle\\n\\n// Wrapper class to expose the private method for fuzzing\\nclass GfxWrapper : public Gfx {\\npublic:\\n    GfxWrapper(PDFDoc* doc, OutputDev* out, Dict* resDict, PDFRectangle* box, PDFRectangle* cropBox)\\n        : Gfx(doc, out, resDict, box, cropBox) {}\\n\\n    void opSetExtGStatePublic(Object* args[], int numArgs) {\\n        // Convert Object* array to Object array\\n        Object objArgs[numArgs];\\n        for (int i = 0; i < numArgs; ++i) {\\n            objArgs[i] = *args[i]; // Assuming Object has a copy constructor\\n        }\\n        // Call the private method with the correct type\\n        this->opSetExtGState(objArgs, numArgs); \\n    }\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {\\n    FuzzedDataProvider stream(data, size);\\n\\n    // Create a dummy Object pointer\\n    Object* obj = new Object();\\n    obj->initNull(); // Initialize the object to a null state\\n\\n    // Consume an integer value from the fuzzed data\\n    int int_param = stream.ConsumeIntegral<int>();\\n\\n    // Assuming we have some valid instances for the Gfx constructor\\n    PDFDoc* doc = nullptr; // Replace with actual PDFDoc initialization\\n    OutputDev* out = nullptr; // Replace with actual OutputDev initialization\\n    Dict* resDict = nullptr; // Replace with actual Dict initialization\\n    PDFRectangle* box = nullptr; // Replace with actual PDFRectangle initialization\\n    PDFRectangle* cropBox = nullptr; // Replace with actual PDFRectangle initialization\\n\\n    // Create a GfxWrapper object with the required parameters\\n    GfxWrapper gfx(doc, out, resDict, box, cropBox);\\n\\n    // Create an array of Object pointers\\n    Object* objects[] = { obj }; // Create an array containing the Object pointer\\n\\n    // Call the public wrapper function with the Object pointer array and the count\\n    gfx.opSetExtGStatePublic(objects, 1); // Call the public method\\n\\n    // Clean up\\n    delete obj;\\n\\n    return 0;\\n}",
+        "model": ""
+    },
+
+    {
+        "benchmark": "output-xpdf-_zn3gfx14opsetextgstateep6objecti",
+        "sample": "02",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n\\n#include <cstddef>\\n#include <cstdint>\\n#include <cstdlib>\\n#include <vector>\\n\\n#include \"Gfx.h\"\\n#include \"Object.h\"\\n\\n// Include necessary headers for PDFDoc, OutputDev, Dict\\n#include \"PDFDoc.h\"\\n#include \"OutputDev.h\"\\n#include \"Dict.h\"\\n// Removed the non-existent PDFRectangle.h and included the correct path for Gfx.h\\n#include \"/src/xpdf-4.05/xpdf/Gfx.h\"\\n\\n// Adding a public wrapper function in Gfx class\\nclass GfxWrapper : public Gfx {\\npublic:\\n    GfxWrapper(PDFDoc* doc, OutputDev* out, Dict* resDict, PDFRectangle* box, PDFRectangle* cropBox)\\n        : Gfx(doc, out, resDict, box, cropBox) {}\\n\\n    // Public method to call the private opSetExtGState\\n    void callOpSetExtGState(Object args[], int numArgs) {\\n        // Using a protected method to access the private member\\n        this->opSetExtGState(args, numArgs);\\n    }\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {\\n    FuzzedDataProvider provider(data, size);\\n\\n    // Create an Object instance to pass to the function\\n    Object* obj = new Object();\\n    obj->initNull(); // Initialize the object to ensure it's not NULL\\n\\n    // Consume an integer value for the second parameter\\n    int int_param = provider.ConsumeIntegral<int>();\\n\\n    // Create necessary objects for Gfx constructor\\n    PDFDoc* doc = nullptr; // Assuming a valid PDFDoc pointer is required\\n    OutputDev* out = nullptr; // Assuming a valid OutputDev pointer is required\\n    Dict* resDict = nullptr; // Assuming a valid Dict pointer is required\\n    PDFRectangle* box = nullptr; // Assuming a valid PDFRectangle pointer is required\\n    PDFRectangle* cropBox = nullptr; // Assuming a valid PDFRectangle pointer is required\\n\\n    // Create an array of Object pointers to pass to the function\\n    Object args[1]; // Create an array to hold the Object(s)\\n    args[0] = *obj; // Assign the initialized Object to the array\\n\\n    // Create an instance of Gfx with the required parameters\\n    GfxWrapper gfx(doc, out, resDict, box, cropBox);\\n\\n    // Call the public wrapper function\\n    gfx.callOpSetExtGState(args, 1); // Pass the array of Objects and the count\\n\\n    // Clean up\\n    delete obj;\\n\\n    return 0;\\n}",
+        "model": ""
+    }
+
+    ]
+}

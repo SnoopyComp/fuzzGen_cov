@@ -37,6 +37,7 @@ AGENT_TEMPLATE_DIR: str = 'prompts/agent/'
 # TODO(Dongge): Refactor this tot avoid hard-coding.
 # Example files.
 EXAMPLE_PATH = os.path.join('prompts', 'example')
+# USER_EXAMPLE_PATH = os.path.join('prompts', 'example', 'LV1')   ###### path to best example
 # Example with FuzzeDataProvider.
 FDP_EXAMPLE_1_PROBLEM = os.path.join(EXAMPLE_PATH, 'gdImageString-problem.txt')
 FDP_EXAMPLE_1_SOLUTION = os.path.join(EXAMPLE_PATH, 'gdImageString-solution.cc')
@@ -53,11 +54,26 @@ FDP_JVM_EXAMPLE_2_PROBLEM = os.path.join(EXAMPLE_PATH,
                                          'jansi_colors-problem.txt')
 FDP_JVM_EXAMPLE_2_SOLUTION = os.path.join(EXAMPLE_PATH,
                                           'jansi_colors-solution.java')
+# CPP_EX1_P = os.path.join(USER_EXAMPLE_PATH,'1','output.txt')
+# CPP_EX1_S = os.path.join(USER_EXAMPLE_PATH,'1','output.cc')
+# CPP_EX2_P = os.path.join(USER_EXAMPLE_PATH,'2','output.txt')
+# CPP_EX2_S = os.path.join(USER_EXAMPLE_PATH,'2','output.cc')
+# CPP_EX3_P = os.path.join(USER_EXAMPLE_PATH,'3','output.txt')
+# CPP_EX3_S = os.path.join(USER_EXAMPLE_PATH,'3','output.cc')
+# CPP_EX4_P = os.path.join(USER_EXAMPLE_PATH,'4','output.txt')
+# CPP_EX4_S = os.path.join(USER_EXAMPLE_PATH,'4','output.cc')
+# CPP_EX5_P = os.path.join(USER_EXAMPLE_PATH,'5','output.txt')
+# CPP_EX5_S = os.path.join(USER_EXAMPLE_PATH,'5','output.cc')
 
 EXAMPLES = {
     'c++': [
         [FDP_EXAMPLE_1_PROBLEM, FDP_EXAMPLE_1_SOLUTION],
         [FDP_EXAMPLE_2_PROBLEM, FDP_EXAMPLE_2_SOLUTION],
+          # [CPP_EX1_P, CPP_EX1_S],
+          # [CPP_EX2_P, CPP_EX2_S],
+          # [CPP_EX3_P, CPP_EX3_S],
+          # [CPP_EX4_P, CPP_EX4_S],
+          # [CPP_EX5_P, CPP_EX5_S],
     ],
     'c': [
         [C_EXAMPLE_1_PROBLEM, C_EXAMPLE_1_SOLUTION],

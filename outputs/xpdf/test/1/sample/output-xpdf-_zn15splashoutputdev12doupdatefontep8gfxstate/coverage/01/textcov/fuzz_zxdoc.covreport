@@ -1,0 +1,44 @@
+LLVMFuzzerTestOneInput:
+   29|     20|extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+   30|       |    // Initialize the FuzzedDataProvider with the input data
+   31|     20|    FuzzedDataProvider fuzzed_data(data, size);
+   32|       |
+   33|       |    // Create an instance of SplashOutputDev
+   34|     20|    SplashOutputDev splash_output_dev;
+   35|       |
+   36|       |    // Create a GfxState object
+   37|     20|    GfxState gfx_state;
+   38|       |
+   39|       |    // Use the fuzzed data to initialize the gfx_state
+   40|       |    // Consume a random length string instead of bytes
+   41|     20|    std::string consumed_data = fuzzed_data.ConsumeRandomLengthString();
+   42|     20|    size_t consumed_size = consumed_data.size();
+   43|       |
+   44|       |    // Validate the size of the consumed data
+   45|     20|    if (consumed_size > 0) {
+  ------------------
+  |  Branch (45:9): [True: 19, False: 1]
+  ------------------
+   46|     19|        gfx_state.setStateFromData(reinterpret_cast<const uint8_t*>(consumed_data.data()), consumed_size);
+   47|       |        
+   48|       |        // Call the function under test
+   49|     19|        splash_output_dev.doUpdateFont(&gfx_state);
+   50|     19|    }
+   51|       |
+   52|     20|    return 0;
+   53|     20|}
+_ZN8GfxStateC2Ev:
+   10|     20|    GfxState() {
+   11|       |        // Initialize with default values
+   12|     20|    }
+_ZN8GfxState16setStateFromDataEPKhm:
+   15|     19|    void setStateFromData(const uint8_t* data, size_t size) {
+   16|       |        // For example, we might set some internal state based on the input data
+   17|       |        // This is just a placeholder for whatever initialization is needed
+   18|       |        // Actual implementation would depend on GfxState's definition
+   19|     19|    }
+_ZN15SplashOutputDev12doUpdateFontEP8GfxState:
+   24|     19|    void doUpdateFont(GfxState *state) {
+   25|       |        // Function implementation...
+   26|     19|    }
+

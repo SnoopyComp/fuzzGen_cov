@@ -1,0 +1,45 @@
+{
+    "samples": [
+
+    {
+        "benchmark": "output-xpdf-_zn6pdfdoc12displaypagesep9outputdeviiddiiiipfipves2_",
+        "sample": "01",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "/sample/output-xpdf-_zn6pdfdoc12displaypagesep9outputdeviiddiiiipfipves2_/coverage/01/linux/report.html",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <cstddef>\\n#include <cstdint>\\n#include <vector>\\n#include <string> // Include string for GString\\n#include <fuzzer/FuzzedDataProvider.h>\\n\\n// Include the correct headers for PDFDoc and related types\\n#include \"/src/xpdf-4.05/goo/gtypes.h\" // Assuming this header contains the definition for GBool\\n#include \"/src/xpdf-4.05/goo/GString.h\" // Corrected path for GString header\\n#include \"/src/xpdf-4.05/xpdf/PDFDoc.h\"\\n#include \"/src/xpdf-4.05/xpdf/OutputDev.h\"\\n\\n// Define a simple abort check callback function\\nGBool abortCheckCallback(void *data) {\\n    return gFalse; // Always return false to continue processing\\n}\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider stream(data, size);\\n\\n    // Initialize parameters for the function under test\\n    OutputDev *output_device = new OutputDev(); // Properly initialize OutputDev\\n    int page_start = stream.ConsumeIntegral<int>() % 100; // Ensure valid page range\\n    int page_end = stream.ConsumeIntegral<int>() % 100; // Ensure valid page range\\n    double hdpi = stream.ConsumeFloatingPoint<double>();\\n    double vdpi = stream.ConsumeFloatingPoint<double>();\\n    int rotate = stream.ConsumeIntegral<int>() % 360; // Ensure valid rotation\\n    GBool use_media_box = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool crop = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool printing = stream.ConsumeBool() ? gTrue : gFalse;\\n\\n    // Create a valid GString for PDFDoc constructor\\n    std::string file_name = stream.ConsumeRandomLengthString(); // Generate a random string for the filename\\n    GString *gstring_file_name = new GString(file_name.c_str()); // Create GString object\\n\\n    // Call the function under test\\n    PDFDoc pdf_doc(gstring_file_name); // Initialize PDFDoc with GString\\n    pdf_doc.displayPages(output_device, page_start, page_end, hdpi, vdpi, rotate, use_media_box, crop, printing, abortCheckCallback, nullptr);\\n\\n    delete gstring_file_name; // Clean up allocated GString\\n    delete output_device; // Clean up allocated OutputDev\\n\\n    return 0;\\n}",
+        "model": ""
+    },
+
+    {
+        "benchmark": "output-xpdf-_zn6pdfdoc12displaypagesep9outputdeviiddiiiipfipves2_",
+        "sample": "02",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n#include <cstddef>\\n#include <cstdint>\\n#include <vector>\\n#include <string> // Added for std::string\\n#include <memory> // Added for std::unique_ptr\\n\\n#include \"gmem.h\"\\n#include \"gfile.h\"\\n#include \"/src/xpdf-4.05/xpdf/Stream.h\" // Ensure this is the correct path for Stream.h\\n#include \"OutputDev.h\"\\n#include \"/src/xpdf-4.05/xpdf/PDFDoc.h\" // Correct path for PDFDoc.h\\n#include \"/src/xpdf-4.05/xpdf/XRef.h\" // Include XRef.h to resolve the missing Ref.h\\n\\n// Include the necessary headers for other classes\\n#include \"GString.h\" // Assuming GString is defined here\\n#include \"PDFCore.h\" // Assuming PDFCore is defined here\\n#include \"Dict.h\" // Assuming Dict is defined here\\n#include \"Object.h\" // Assuming Object is defined here\\n\\n// Forward declarations for types that are used in OutputDev and PDFDoc\\nclass GString;\\nclass PDFCore;\\nclass Dict;\\nclass Object;\\n\\n// Mock class to implement the pure virtual functions of OutputDev\\nclass MockOutputDev : public OutputDev {\\npublic:\\n    // Implement the pure virtual methods\\n    virtual GBool upsideDown() override { return gFalse; }\\n    virtual GBool useDrawChar() override { return gFalse; }\\n    virtual GBool interpretType3Chars() override { return gFalse; }\\n    // Add any other necessary methods or mock behavior\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider provider(data, size);\\n\\n    // Create a dummy OutputDev object using the mock class\\n    std::unique_ptr<OutputDev> output_dev(new MockOutputDev()); // Use MockOutputDev\\n\\n    // Consume parameters for the displayPages function\\n    int page_start = provider.ConsumeIntegral<int>();\\n    int page_end = provider.ConsumeIntegral<int>();\\n    double hdpi = provider.ConsumeFloatingPoint<double>();\\n    double vdpi = provider.ConsumeFloatingPoint<double>();\\n    int rotate = provider.ConsumeIntegral<int>();\\n    GBool useMediaBox = provider.ConsumeBool() ? gTrue : gFalse;\\n    GBool crop = provider.ConsumeBool() ? gTrue : gFalse;\\n    GBool printing = provider.ConsumeBool() ? gTrue : gFalse;\\n\\n    // Create a dummy PDFDoc object with a valid constructor\\n    std::string dummyFileName = \"dummy.pdf\"; // Dummy file name\\n    GString *fileNameA = new GString(dummyFileName.c_str()); // Assuming GString has a constructor that takes const char*\\n    std::unique_ptr<PDFDoc> pdf_doc(new PDFDoc(fileNameA)); // Changed to unique_ptr\\n\\n    // Call the function under test\\n    pdf_doc->displayPages(output_dev.get(), page_start, page_end, hdpi, vdpi, rotate, useMediaBox, crop, printing, nullptr, nullptr);\\n\\n    // Clean up is handled by unique_ptr\\n\\n    return 0;\\n}",
+        "model": ""
+    }
+
+    ]
+}

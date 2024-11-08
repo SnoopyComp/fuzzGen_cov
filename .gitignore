@@ -6,5 +6,6 @@ benchmark-sets/split_benchmarks/
 benchmark-sets/generated-benchmark-*
 venv/
 .venv/
+.env
 __pycache__/
 *.swp

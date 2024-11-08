@@ -1,0 +1,1 @@
+repetition num: 1, subtask num: 1, max_coverage: 0.9629629629629629, coverage_diff: 0.0

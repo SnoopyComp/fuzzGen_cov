@@ -1,0 +1,45 @@
+{
+    "samples": [
+
+    {
+        "benchmark": "output-xpdf-_zn15splashoutputdev8drawcharep8gfxstateddddddjipjiiii",
+        "sample": "01",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n\\n#include <cstddef>\\n#include <cstdint>\\n#include <cstdlib>\\n#include <vector>\\n\\n#include \"GfxState.h\"\\n#include \"SplashOutputDev.h\" // Updated include for SplashOutputDev\\n#include \"CharCodeToUnicode.h\" // Include for CharCode type\\n#include \"FoFiTrueType.h\" // Include for FoFiTrueType\\n#include \"FoFiType1.h\" // Include for FoFiType1\\n#include \"FoFiType1C.h\" // Include for FoFiType1C\\n#include \"FoFiIdentifier.h\" // Include for FoFiIdentifier\\n\\n// Additional includes to resolve undefined references\\n#include \"/src/xpdf-4.05/xpdf/SplashOutputDev.h\"\\n#include \"/src/xpdf-4.05/xpdf/FoFiTrueType.h\"\\n#include \"/src/xpdf-4.05/xpdf/FoFiType1.h\"\\n#include \"/src/xpdf-4.05/xpdf/FoFiType1C.h\"\\n#include \"/src/xpdf-4.05/xpdf/FoFiIdentifier.h\"\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {\\n    FuzzedDataProvider stream(data, size);\\n\\n    // Create a GfxState object with dummy values for the constructor\\n    double hDPI = 72.0; // Example horizontal DPI\\n    double vDPI = 72.0; // Example vertical DPI\\n    PDFRectangle* pageBox = nullptr; // Assuming a valid PDFRectangle pointer\\n    int rotate = 0; // No rotation\\n    GBool upsideDown = gFalse; // Not upside down\\n    GfxState* gfxState = new GfxState(hDPI, vDPI, pageBox, rotate, upsideDown);\\n\\n    // Consume parameters for drawChar\\n    double x = stream.ConsumeFloatingPoint<double>();\\n    double y = stream.ConsumeFloatingPoint<double>();\\n    double width = stream.ConsumeFloatingPoint<double>();\\n    double height = stream.ConsumeFloatingPoint<double>();\\n    double xScale = stream.ConsumeFloatingPoint<double>();\\n    double yScale = stream.ConsumeFloatingPoint<double>();\\n    CharCode charCode = stream.ConsumeIntegral<CharCode>();\\n    int fontSize = stream.ConsumeIntegral<int>();\\n    \\n    // Create a Unicode object\\n    int unicodeLength = stream.ConsumeIntegralInRange<int>(1, 10); // Ensure we have a reasonable length\\n    std::vector<Unicode> unicodeArray(unicodeLength);\\n    for (int i = 0; i < unicodeLength; ++i) {\\n        unicodeArray[i] = stream.ConsumeIntegral<Unicode>();\\n    }\\n    \\n    // Consume boolean parameters\\n    GBool isFill = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool isStroke = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool isClip = stream.ConsumeBool() ? gTrue : gFalse;\\n\\n    // Create an instance of SplashOutputDev with dummy values for the constructor\\n    SplashColorMode colorMode = splashModeRGB8; // Updated to use splashModeRGB8\\n    int bitmapRowPad = 4; // Example bitmap row padding\\n    GBool reverseVideo = gFalse; // Not reverse video\\n    SplashColorPtr paperColor = nullptr; // Assuming a valid SplashColorPtr\\n    SplashOutputDev splashOutputDev(colorMode, bitmapRowPad, reverseVideo, paperColor);\\n\\n    // Call the function under test\\n    splashOutputDev.drawChar(gfxState, x, y, width, height, xScale, yScale,\\n                              charCode, fontSize, unicodeArray.data(), unicodeLength,\\n                              isFill, isStroke, isClip);\\n\\n    // Clean up\\n    delete gfxState;\\n\\n    return 0;\\n}",
+        "model": ""
+    },
+
+    {
+        "benchmark": "output-xpdf-_zn15splashoutputdev8drawcharep8gfxstateddddddjipjiiii",
+        "sample": "02",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n\\n#include <cstddef>\\n#include <cstdint>\\n#include <cstdlib>\\n#include <vector>\\n#include <string>\\n\\n#include \"GfxState.h\"\\n#include \"/src/xpdf-4.05/xpdf/SplashOutputDev.h\" // Updated include path for SplashOutputDev.h\\n#include \"/src/xpdf-4.05/fofi/FoFiType1.h\" // Include for FoFiType1 (corrected path)\\n#include \"/src/xpdf-4.05/xpdf/FoFiTrueType.h\" // Include for FoFiTrueType\\n#include \"/src/xpdf-4.05/xpdf/FoFiType1C.h\" // Include for FoFiType1C\\n#include \"/src/xpdf-4.05/xpdf/FoFiIdentifier.h\" // Include for FoFiIdentifier\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider stream(data, size);\\n\\n    // Create a GfxState object with dummy parameters (you may need to adjust these based on actual requirements)\\n    double hDPI = 72.0; // Horizontal DPI\\n    double vDPI = 72.0; // Vertical DPI\\n    PDFRectangle *pageBox = nullptr; // Assuming nullptr is acceptable; adjust as necessary\\n    int rotate = 0; // Rotation angle\\n    GBool upsideDown = gFalse; // Upside down flag\\n\\n    GfxState *gfxState = new GfxState(hDPI, vDPI, pageBox, rotate, upsideDown);\\n\\n    // Consume parameters for drawChar\\n    double x = stream.ConsumeFloatingPoint<double>();\\n    double y = stream.ConsumeFloatingPoint<double>();\\n    double width = stream.ConsumeFloatingPoint<double>();\\n    double height = stream.ConsumeFloatingPoint<double>();\\n    double xScale = stream.ConsumeFloatingPoint<double>();\\n    double yScale = stream.ConsumeFloatingPoint<double>();\\n    CharCode charCode = stream.ConsumeIntegral<CharCode>();\\n    int fontSize = stream.ConsumeIntegral<int>();\\n    \\n    // Consume Unicode data using ConsumeRandomLengthString for better fuzzing\\n    std::string unicodeString = stream.ConsumeRandomLengthString(100); // Limit unicode length to 100 characters\\n    std::vector<Unicode> unicodeData(unicodeString.begin(), unicodeString.end()); // Convert string to vector of Unicode\\n    \\n    int unicodeCount = static_cast<int>(unicodeData.size());\\n    GBool isFill = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool isStroke = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool isText = stream.ConsumeBool() ? gTrue : gFalse;\\n\\n    // Create a SplashOutputDev object with dummy parameters (you may need to adjust these based on actual requirements)\\n    SplashColorMode colorMode = splashModeRGB8; // Changed to splashModeRGB8\\n    int bitmapRowPad = 4; // Example row padding\\n    GBool reverseVideo = gFalse; // Reverse video flag\\n    SplashColorPtr paperColor = nullptr; // Assuming nullptr is acceptable; adjust as necessary\\n    GBool bitmapTopDown = gTrue; // Bitmap top down flag\\n    GBool allowAntialias = gTrue; // Allow antialiasing flag\\n\\n    SplashOutputDev splashOutputDev(colorMode, bitmapRowPad, reverseVideo, paperColor, bitmapTopDown, allowAntialias);\\n\\n    // Call the function under test\\n    splashOutputDev.drawChar(gfxState, x, y, width, height, xScale, yScale, charCode, fontSize,\\n                              unicodeData.data(), unicodeCount, isFill, isStroke, isText);\\n\\n    // Clean up\\n    delete gfxState;\\n\\n    return 0;\\n}",
+        "model": ""
+    }
+
+    ]
+}

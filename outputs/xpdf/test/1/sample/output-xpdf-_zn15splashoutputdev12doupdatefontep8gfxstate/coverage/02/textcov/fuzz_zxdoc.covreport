@@ -1,0 +1,25 @@
+LLVMFuzzerTestOneInput:
+   20|      3|extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
+   21|      3|    FuzzedDataProvider fuzzed_data(data, size);
+   22|       |    
+   23|       |    // Create an instance of SplashOutputDev
+   24|      3|    SplashOutputDev splashOutputDev;
+   25|       |
+   26|       |    // Initialize GfxState
+   27|      3|    GfxState gfxState;
+   28|       |
+   29|       |    // Consume data to initialize GfxState members
+   30|      3|    gfxState.font_id = fuzzed_data.ConsumeIntegral<int>(); // Assuming font_id is an int
+   31|      3|    gfxState.font_size = fuzzed_data.ConsumeFloatingPoint<float>(); // Assuming font_size is a float
+   32|       |
+   33|       |    // Call the function to fuzz
+   34|      3|    splashOutputDev.doUpdateFont(&gfxState);
+   35|       |
+   36|      3|    return 0;
+   37|      3|}
+_ZN15SplashOutputDev12doUpdateFontEP8GfxState:
+   14|      3|    void doUpdateFont(GfxState *state) {
+   15|       |        // Function implementation
+   16|       |        // This is where the actual functionality is implemented
+   17|      3|    }
+

@@ -1,0 +1,45 @@
+{
+    "samples": [
+
+    {
+        "benchmark": "output-xpdf-_zn6pdfdoc16displaypagesliceep9outputdeviddiiiiiiiipfipves2_",
+        "sample": "01",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <cstdint>\\n#include <cstddef>\\n#include <fuzzer/FuzzedDataProvider.h>\\n#include <vector>\\n#include <iostream> // Include for standard I/O, if needed for debugging\\n\\n// Assuming the required classes and types are defined somewhere\\nclass OutputDev {};\\nusing GBool = bool;\\nstruct DW_TAG_subroutine_typeInfiniteLoop {};\\n\\n// Assuming PDFDoc is defined in some included header\\nclass PDFDoc {\\npublic:\\n    void displayPageSlice(OutputDev *, int, double, double, int, GBool, GBool, GBool, int, int, int, int, DW_TAG_subroutine_typeInfiniteLoop *, void *);\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider fuzzed_data(data, size);\\n\\n    // Create an instance of OutputDev\\n    OutputDev output_dev;\\n\\n    // Consume parameters\\n    int int_param1 = fuzzed_data.ConsumeIntegral<int>();\\n    double double_param1 = fuzzed_data.ConsumeFloatingPoint<double>();\\n    double double_param2 = fuzzed_data.ConsumeFloatingPoint<double>();\\n    int int_param2 = fuzzed_data.ConsumeIntegral<int>();\\n    GBool bool_param1 = fuzzed_data.ConsumeBool();\\n    GBool bool_param2 = fuzzed_data.ConsumeBool();\\n    GBool bool_param3 = fuzzed_data.ConsumeBool();\\n    int int_param3 = fuzzed_data.ConsumeIntegral<int>();\\n    int int_param4 = fuzzed_data.ConsumeIntegral<int>();\\n    int int_param5 = fuzzed_data.ConsumeIntegral<int>();\\n    int int_param6 = fuzzed_data.ConsumeIntegral<int>();\\n\\n    // Create an instance of DW_TAG_subroutine_typeInfiniteLoop\\n    DW_TAG_subroutine_typeInfiniteLoop infinite_loop;\\n\\n    // Consume remaining bytes into a vector of uint8_t\\n    std::vector<uint8_t> remaining_bytes = fuzzed_data.ConsumeRemainingBytes<std::vector<uint8_t>>();\\n\\n    // Create a pointer from the vector's data\\n    void* void_ptr_param = static_cast<void*>(remaining_bytes.data());\\n\\n    // Call the function under test\\n    PDFDoc pdf_doc;\\n    pdf_doc.displayPageSlice(&output_dev, int_param1, double_param1, double_param2, int_param2, bool_param1, bool_param2, bool_param3, int_param3, int_param4, int_param5, int_param6, &infinite_loop, void_ptr_param);\\n\\n    return 0;\\n}",
+        "model": ""
+    },
+
+    {
+        "benchmark": "output-xpdf-_zn6pdfdoc16displaypagesliceep9outputdeviddiiiiiiiipfipves2_",
+        "sample": "02",
+        "status": "Done",
+        "compiles": "False",
+        "crashes": "False",
+        "crash_reason": "-",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "0.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "#",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n#include <vector>\\n#include <cstdint>\\n#include <string>\\n#include <cstdlib> // For std::size_t\\n\\n// Include the necessary project-specific headers\\n#include \"/src/xpdf-4.05/xpdf/PDFDoc.h\"\\n#include \"/src/xpdf-4.05/xpdf/OutputDev.h\"\\n#include \"/src/xpdf-4.05/xpdf/GlobalParams.h\" // Corrected path for GlobalParams.h\\n#include \"/src/xpdf-4.05/goo/gtypes.h\" // Include gtypes.h for GBool\\n#include \"/src/xpdf-4.05/xpdf/dw_tag.h\" // Include the header that defines DW_TAG_subroutine_typeInfinite\\n\\nint LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider stream(data, size);\\n\\n    // Initialize parameters\\n    std::string outputDevData = stream.ConsumeRandomLengthString(sizeof(OutputDev));\\n    if (outputDevData.size() != sizeof(OutputDev)) return 0; // Validate size\\n    OutputDev* outputDev = reinterpret_cast<OutputDev*>(outputDevData.data());\\n\\n    int param1 = stream.ConsumeIntegral<int>();\\n    double param2 = stream.ConsumeFloatingPoint<double>();\\n    double param3 = stream.ConsumeFloatingPoint<double>();\\n    int param4 = stream.ConsumeIntegral<int>();\\n    GBool param5 = stream.ConsumeBool() ? gTrue : gFalse; // Use gTrue and gFalse directly\\n    GBool param6 = stream.ConsumeBool() ? gTrue : gFalse;\\n    GBool param7 = stream.ConsumeBool() ? gTrue : gFalse;\\n    int param8 = stream.ConsumeIntegral<int>();\\n    int param9 = stream.ConsumeIntegral<int>();\\n    int param10 = stream.ConsumeIntegral<int>();\\n    int param11 = stream.ConsumeIntegral<int>();\\n    \\n    std::string dwTagData = stream.ConsumeRandomLengthString(sizeof(DW_TAG_subroutine_typeInfinite));\\n    if (dwTagData.size() != sizeof(DW_TAG_subroutine_typeInfinite)) return 0; // Validate size\\n    DW_TAG_subroutine_typeInfinite* param12 = reinterpret_cast<DW_TAG_subroutine_typeInfinite*>(dwTagData.data());\\n    \\n    // Assuming the last parameter is a void pointer\\n    void* param13 = stream.ConsumeRemainingBytes<uint8_t>().data();\\n\\n    // Call the function under test\\n    PDFDoc pdfDoc; // Assuming you need an instance of PDFDoc to call the method\\n    pdfDoc.displayPageSlice(outputDev, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13);\\n\\n    return 0;\\n}",
+        "model": ""
+    }
+
+    ]
+}

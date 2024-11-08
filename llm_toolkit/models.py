@@ -43,7 +43,7 @@ from utils import retryable
 logger = logging.getLogger(__name__)
 
 # Model hyper-parameters.
-MAX_TOKENS: int = 2000
+MAX_TOKENS: int = 20000
 NUM_SAMPLES: int = 1
 TEMPERATURE: float = 0.4
 
@@ -54,7 +54,7 @@ class LLM:
   # Should be set by the subclass.
   name: str
   # TODO(mihaimaruseac): Should this be MAX_TOKENS or a different global?
-  context_window: int = 2000  # Default token size.
+  context_window: int = 20000  # Default token size.
 
   MAX_INPUT_TOKEN: int = sys.maxsize
 

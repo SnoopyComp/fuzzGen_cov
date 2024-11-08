@@ -1,0 +1,45 @@
+{
+    "samples": [
+
+    {
+        "benchmark": "output-xpdf-_zn15splashoutputdev12doupdatefontep8gfxstate",
+        "sample": "01",
+        "status": "Done",
+        "compiles": "True",
+        "crashes": "False",
+        "crash_reason": "NO_SEMANTIC_ERR",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "70.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "/sample/output-xpdf-_zn15splashoutputdev12doupdatefontep8gfxstate/coverage/01/linux/report.html",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n#include <vector>\\n#include <cstdint>\\n#include <cstring> // Include for memcpy or other string manipulation functions\\n\\n// Assuming GfxState is a defined class\\nclass GfxState {\\npublic:\\n    // Example constructor and methods for GfxState\\n    GfxState() {\\n        // Initialize with default values\\n    }\\n\\n    // Example method to set some state based on fuzz input\\n    void setStateFromData(const uint8_t* data, size_t size) {\\n        // For example, we might set some internal state based on the input data\\n        // This is just a placeholder for whatever initialization is needed\\n        // Actual implementation would depend on GfxState's definition\\n    }\\n};\\n\\nclass SplashOutputDev {\\npublic:\\n    void doUpdateFont(GfxState *state) {\\n        // Function implementation...\\n    }\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    // Initialize the FuzzedDataProvider with the input data\\n    FuzzedDataProvider fuzzed_data(data, size);\\n\\n    // Create an instance of SplashOutputDev\\n    SplashOutputDev splash_output_dev;\\n\\n    // Create a GfxState object\\n    GfxState gfx_state;\\n\\n    // Use the fuzzed data to initialize the gfx_state\\n    // Consume a random length string instead of bytes\\n    std::string consumed_data = fuzzed_data.ConsumeRandomLengthString();\\n    size_t consumed_size = consumed_data.size();\\n\\n    // Validate the size of the consumed data\\n    if (consumed_size > 0) {\\n        gfx_state.setStateFromData(reinterpret_cast<const uint8_t*>(consumed_data.data()), consumed_size);\\n        \\n        // Call the function under test\\n        splash_output_dev.doUpdateFont(&gfx_state);\\n    }\\n\\n    return 0;\\n}",
+        "model": ""
+    },
+
+    {
+        "benchmark": "output-xpdf-_zn15splashoutputdev12doupdatefontep8gfxstate",
+        "sample": "02",
+        "status": "Done",
+        "compiles": "True",
+        "crashes": "False",
+        "crash_reason": "NO_SEMANTIC_ERR",
+        "bug": "True",
+        "triage": "-",
+        "coverage": "100.00",
+        "coverage_diff": "0.0",
+        "coverage_report": "/sample/output-xpdf-_zn15splashoutputdev12doupdatefontep8gfxstate/coverage/02/linux/report.html",
+        "stacktrace": "/stacktrace",
+        "target_binary": "/target_binary",
+        "reproducer": "/artifacts",
+        "run_log": "run.log",
+        "source_code": "#include <fuzzer/FuzzedDataProvider.h>\\n\\n// Assuming GfxState is a defined class in the context\\nclass GfxState {\\npublic:\\n    // Example members, these should match the actual GfxState definition\\n    int font_id;\\n    float font_size;\\n    // Add other necessary members and methods\\n};\\n\\nclass SplashOutputDev {\\npublic:\\n    void doUpdateFont(GfxState *state) {\\n        // Function implementation\\n        // This is where the actual functionality is implemented\\n    }\\n};\\n\\nextern \"C\" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {\\n    FuzzedDataProvider fuzzed_data(data, size);\\n    \\n    // Create an instance of SplashOutputDev\\n    SplashOutputDev splashOutputDev;\\n\\n    // Initialize GfxState\\n    GfxState gfxState;\\n\\n    // Consume data to initialize GfxState members\\n    gfxState.font_id = fuzzed_data.ConsumeIntegral<int>(); // Assuming font_id is an int\\n    gfxState.font_size = fuzzed_data.ConsumeFloatingPoint<float>(); // Assuming font_size is a float\\n\\n    // Call the function to fuzz\\n    splashOutputDev.doUpdateFont(&gfxState);\\n\\n    return 0;\\n}",
+        "model": ""
+    }
+
+    ]
+}
