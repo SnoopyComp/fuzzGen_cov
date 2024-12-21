@@ -159,6 +159,30 @@ def parse_args() -> argparse.Namespace:
   """Parses command line arguments."""
   parser = argparse.ArgumentParser(
       description='Run all experiments that evaluates all target functions.')
+
+  # ADDED FOR AUTOMATE FUZZING
+  parser.add_argument(
+          '--no-example',
+          action='store_true',
+          default=False,
+          help='option whether use examples or not')
+  parser.add_argument(
+          '--default',
+          action='store_true',
+          default=False,
+          help='option whether use examples or not')
+  parser.add_argument(
+          '--lv1',
+          action='store_true',
+          default=False,
+          help='option whether use examples or not')
+  parser.add_argument(
+          '--lv2',
+          action='store_true',
+          default=False,
+          help='option whether use examples or not')
+  # ADDED FOR AUTOMATE FUZZING
+
   parser.add_argument('-n',
                       '--num-samples',
                       type=int,

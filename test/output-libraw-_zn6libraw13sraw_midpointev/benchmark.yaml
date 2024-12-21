@@ -1,0 +1,11 @@
+"functions":
+- "name": "_ZN6LibRaw13sraw_midpointEv"
+  "params":
+  - "name": "this"
+    "type": "bool "
+  "return_type": "int"
+  "signature": "int LibRaw::sraw_midpoint()"
+"language": "c++"
+"project": "libraw"
+"target_name": "libraw_cr2_fuzzer"
+"target_path": "/src/libraw_fuzzer.cc"

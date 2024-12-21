@@ -1,0 +1,13 @@
+"functions":
+- "name": "_ZN6LibRaw13parseCR3_CTMDEs"
+  "params":
+  - "name": "this"
+    "type": "bool "
+  - "name": "trackNum"
+    "type": "short"
+  "return_type": "int"
+  "signature": "int LibRaw::parseCR3_CTMD(short)"
+"language": "c++"
+"project": "libraw"
+"target_name": "libraw_cr2_fuzzer"
+"target_path": "/src/libraw_fuzzer.cc"

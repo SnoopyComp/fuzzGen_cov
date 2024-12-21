@@ -3,6 +3,9 @@
 #	$2 : index to start repetition
 #	$3 : index to end repetition (include $3)
 #	$4 : if exist : remove temporary files for each repetition
+#	$5 : llm model
+#	$6 : library name
+#	$7 : option
 
 
 if [ -f .env ]; then
@@ -14,8 +17,9 @@ export OPENAI_API_KEY=$OPENAI_API_KEY
 
 
 directory_name=$1
-library_name=xpdf
-llm_model='gpt-4o-mini'
+library_name=$6
+llm_model=$5
+option=$7
 
 sudo rm -rf /tmp/*
 rm -rf ~/.local/share/Trash/files/*
@@ -26,7 +30,8 @@ do
 	./run_all_experiments.py\
 	--model=${llm_model}\
 	-y ./benchmark-sets/all/${library_name}.yaml\
-	--work-dir=results/${library_name}/${directory_name}/$var
+	--work-dir=results/${library_name}/${directory_name}/$var\
+	${option}
 
 	python3.11 -m report.web -r results/${library_name}/${directory_name}/$var -o outputs/${library_name}/${directory_name}/$var
 done

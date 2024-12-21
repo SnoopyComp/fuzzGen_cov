@@ -360,13 +360,22 @@ def run(benchmark: Benchmark, model: models.LLM, args: argparse.Namespace,
     # TODO(dongge): Make this default when it is ready.
     return _fuzzing_pipelines(benchmark, model, args, work_dirs)
 
+  example_pair = list()
+  if (args.no_example == False):
+      if (args.lv1 == True):
+          prompt_builder.example_update("lv1")
+      elif (args.lv2 == True):
+          prompt_builder.example_update("lv2")
+      example_pair = prompt_builder.EXAMPLES.get(benchmark.language, [])
+  exit(0)
+
   generated_targets = generate_targets_for_analysis(
       model=model,
       benchmark=benchmark,
       work_dirs=work_dirs,
       template_dir=args.template_directory,
       use_context=args.context,
-      example_pair=prompt_builder.EXAMPLES.get(benchmark.language, []),
+      example_pair=example_pair,
       prompt_builder_to_use=args.prompt_builder,
       cloud_experiment_bucket=args.cloud_experiment_bucket)
 

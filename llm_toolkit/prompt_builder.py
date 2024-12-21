@@ -90,6 +90,33 @@ FUZZ_ERROR_SUMMARY = 'The code can build successfully but has a runtime issue: '
 
 C_PROMPT_HEADERS_TO_ALWAYS_INCLUDES = ['stdio.h', 'stdlib.h', 'stdint.h']
 
+def example_update(level):
+    if (level == "lv1"):
+        EXAMPLES = {
+                'c++': [
+                    [os.path.join(EXAMPLE_PATH,'default','1','output.txt'),os.path.join(EXAMPLE_PATH,'default','1','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'default','2','output.txt'),os.path.join(EXAMPLE_PATH,'default','2','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'default','3','output.txt'),os.path.join(EXAMPLE_PATH,'default','3','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'default','4','output.txt'),os.path.join(EXAMPLE_PATH,'default','4','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'default','5','output.txt'),os.path.join(EXAMPLE_PATH,'default','5','output.cc')],
+                    ],
+                'c': [],
+                'jvm': []
+                }
+    elif (level == "lv2"):
+        EXAMPLES = {
+                'c++': [
+                    [os.path.join(EXAMPLE_PATH,'lv1','1','output.txt'),os.path.join(EXAMPLE_PATH,'lv1','1','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'lv1','2','output.txt'),os.path.join(EXAMPLE_PATH,'lv1','2','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'lv1','3','output.txt'),os.path.join(EXAMPLE_PATH,'lv1','3','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'lv1','4','output.txt'),os.path.join(EXAMPLE_PATH,'lv1','4','output.cc')],
+                    [os.path.join(EXAMPLE_PATH,'lv1','5','output.txt'),os.path.join(EXAMPLE_PATH,'lv1','5','output.cc')],
+                    ],
+                'c': [],
+                'jvm': []
+                }
+    logger.info(f'HERE!! >>> ${EXAMPLES}')
+
 
 class PromptBuilder:
   """Prompt builder."""
