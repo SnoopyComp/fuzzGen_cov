@@ -1,0 +1,1 @@
+void SplashOutputDev::doUpdateFont(GfxState *)
